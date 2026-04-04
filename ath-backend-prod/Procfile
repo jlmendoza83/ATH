@@ -1,0 +1,3 @@
+# Procfile — Railway lee este archivo para saber cómo arrancar el servidor.
+# El cron batch se configura en Railway como servicio separado (ver checklist).
+web: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --log-level info
