@@ -1,0 +1,236 @@
+{
+  "title": "Gabriel Archangel Investments — How it works",
+  "voice": "af_heart",
+  "speed": 1.1,
+  "lang": "en-us",
+  "defaults": {
+    "pad_before": 0.9,
+    "pad_after": 0.9,
+    "gap": 0.35
+  },
+  "scenes": [
+    {
+      "id": "intro",
+      "pad_before": 2.4,
+      "pad_after": 1.0,
+      "segments": [
+        {
+          "id": "intro_1",
+          "text": "Welcome to Gabriel Archangel Investments."
+        },
+        {
+          "id": "intro_2",
+          "gap": 0.6,
+          "text": "Here's how our system finds outstanding companies, ranks them objectively, and manages the risk of every position."
+        }
+      ]
+    },
+    {
+      "id": "idea",
+      "pad_before": 1.0,
+      "pad_after": 1.2,
+      "segments": [
+        {
+          "id": "idea_1",
+          "text": "Our starting point is simple."
+        },
+        {
+          "id": "idea_2",
+          "text": "Market leaders often trade close to their all-time high: the highest price the stock has ever reached."
+        },
+        {
+          "id": "idea_3",
+          "gap": 0.5,
+          "text": "So instead of chasing stocks that keep falling, we focus on quality companies the market is already rewarding."
+        }
+      ]
+    },
+    {
+      "id": "universe",
+      "pad_before": 1.0,
+      "pad_after": 1.4,
+      "segments": [
+        {
+          "id": "s1_1",
+          "text": "Step one: the universe."
+        },
+        {
+          "id": "s1_2",
+          "gap": 0.45,
+          "text": "We begin with a curated list of thirty quality leaders from around the world, across technology, healthcare, industry, consumer and financial data."
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "pad_before": 1.0,
+      "pad_after": 1.4,
+      "segments": [
+        {
+          "id": "s2_1",
+          "text": "Step two: fresh data, every night."
+        },
+        {
+          "id": "s2_2",
+          "gap": 0.45,
+          "text": "An automated process collects prices, profitability, growth and balance-sheet figures for every company, and stores the results in a scores database."
+        },
+        {
+          "id": "s2_3",
+          "gap": 0.5,
+          "text": "Prices refresh every fifteen minutes, fundamentals every day, and sales history every week."
+        }
+      ]
+    },
+    {
+      "id": "score",
+      "pad_before": 1.0,
+      "pad_after": 1.6,
+      "segments": [
+        {
+          "id": "s3_1",
+          "text": "Step three: the Cannon Score."
+        },
+        {
+          "id": "s3_2",
+          "gap": 0.45,
+          "text": "Every company receives one clear number, from zero to one hundred, built from seven factors."
+        },
+        {
+          "id": "f1",
+          "gap": 0.55,
+          "text": "Proximity to the all-time high is worth up to twenty-five points."
+        },
+        {
+          "id": "f2",
+          "text": "Return on invested capital, or how efficiently the business turns money into profit: twenty."
+        },
+        {
+          "id": "f3",
+          "text": "Sales growth over three years: twenty."
+        },
+        {
+          "id": "f4",
+          "text": "Technical strength, the stock's performance over the last twelve months: fifteen."
+        },
+        {
+          "id": "f5",
+          "text": "Net margin: ten."
+        },
+        {
+          "id": "f6",
+          "text": "Balance-sheet strength: five."
+        },
+        {
+          "id": "f7",
+          "text": "And trading volume and liquidity: five more."
+        }
+      ]
+    },
+    {
+      "id": "example",
+      "pad_before": 1.0,
+      "pad_after": 1.6,
+      "segments": [
+        {
+          "id": "ex_1",
+          "text": "Let's look at an example."
+        },
+        {
+          "id": "ex_2",
+          "gap": 0.5,
+          "text": "A company trading three percent below its high, earning thirty-five percent on its capital, growing sales twenty-two percent a year, and carrying little debt, scores eighty-two out of one hundred."
+        },
+        {
+          "id": "ex_3",
+          "gap": 0.7,
+          "text": "Any company scoring sixty or more is highlighted as a top candidate on the dashboard."
+        }
+      ]
+    },
+    {
+      "id": "screener",
+      "pad_before": 1.0,
+      "pad_after": 1.6,
+      "segments": [
+        {
+          "id": "s4_1",
+          "text": "Step four: screen and compare."
+        },
+        {
+          "id": "s4_2",
+          "gap": 0.45,
+          "text": "Filters for distance to the high, return on capital, valuation, margins, debt and trend narrow the list down to a handful of candidates worth studying."
+        }
+      ]
+    },
+    {
+      "id": "risk",
+      "pad_before": 1.0,
+      "pad_after": 1.8,
+      "segments": [
+        {
+          "id": "s5_1",
+          "text": "Step five, and the most important: how much to buy."
+        },
+        {
+          "id": "s5_2",
+          "gap": 0.5,
+          "text": "First, we decide the most we are willing to lose. For example, one percent of a fifty-thousand-dollar account: five hundred dollars."
+        },
+        {
+          "id": "s5_3",
+          "gap": 0.5,
+          "text": "If we buy at one hundred dollars and place a protective stop at ninety, we risk ten dollars per share."
+        },
+        {
+          "id": "s5_4",
+          "gap": 0.5,
+          "text": "Five hundred divided by ten gives us fifty shares."
+        },
+        {
+          "id": "s5_5",
+          "gap": 0.7,
+          "text": "If the price reaches the stop, we exit, and the loss is the five hundred dollars we planned. Profit targets are set at one, two and three times that risk."
+        },
+        {
+          "id": "s5_6",
+          "gap": 0.6,
+          "text": "The system also adds up the risk of every open position, so total portfolio risk is always visible."
+        }
+      ]
+    },
+    {
+      "id": "recap",
+      "pad_before": 1.0,
+      "pad_after": 1.0,
+      "segments": [
+        {
+          "id": "rc_1",
+          "text": "So, in five steps:"
+        },
+        {
+          "id": "rc_2",
+          "gap": 0.3,
+          "text": "a quality universe, fresh data every night, an objective score, focused screening, and disciplined risk on every trade."
+        },
+        {
+          "id": "rc_3",
+          "gap": 0.6,
+          "text": "That is how Gabriel Archangel Investments works."
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "pad_before": 1.2,
+      "pad_after": 4.5,
+      "segments": [
+        {
+          "id": "out_1",
+          "text": "Follow the leaders. Respect the risk."
+        }
+      ]
+    }
+  ]
+}
