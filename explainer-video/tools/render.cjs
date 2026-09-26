@@ -7,6 +7,7 @@
  *
  *   node tools/render.cjs video  <out.mp4> [fps]             (video-only, near-lossless master)
  *   node tools/render.cjs stills <outDir> <t1> <t2> …      (PNG snapshots for review)
+ *   node tools/render.cjs events <out.json>                 (sound events registered by the page)
  *
  * Env: FFMPEG (path to ffmpeg with libx264), NODE_PATH (to find playwright).
  */
@@ -47,6 +48,14 @@ async function stills(outDir, times) {
   await browser.close();
 }
 
+async function events(out) {
+  const { browser, page } = await openPage();
+  const list = await page.evaluate(() => window.__sfx || []);
+  fs.writeFileSync(out, JSON.stringify(list, null, 1));
+  await browser.close();
+  console.log(`[events] ${list.length} sound events → ${out}`);
+}
+
 async function video(out, fps) {
   const { browser, page, cdp } = await openPage();
   const duration = await page.evaluate(() => window.__duration);
@@ -80,5 +89,6 @@ async function video(out, fps) {
   const [mode, ...rest] = process.argv.slice(2);
   if (mode === "stills") await stills(rest[0], rest.slice(1).map(Number));
   else if (mode === "video") await video(rest[0], Number(rest[1] || 30));
-  else { console.error("usage: render.cjs video <out> [fps] | stills <dir> <t…>"); process.exit(2); }
+  else if (mode === "events") await events(rest[0]);
+  else { console.error("usage: render.cjs video <out> [fps] | stills <dir> <t…> | events <out.json>"); process.exit(2); }
 })().catch(e => { console.error(e); process.exit(1); });

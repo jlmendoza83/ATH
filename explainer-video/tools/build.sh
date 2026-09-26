@@ -2,11 +2,13 @@
 # tools/build.sh — Rebuild the explainer video end to end.
 #
 #   script.json ──tts.py──► narration.wav + timings.js + captions-en.vtt
-#               ──music.py─► music.wav
-#               ──ffmpeg──► src/audio.m4a  (voice + ducked music, -16 LUFS)
+#   src/index.html ──render.cjs events──► sfx.json (sound events placed by the animation)
+#               ──music.py─► music.wav (118 BPM groove) + sfx.wav
+#               ──ffmpeg──► src/audio.m4a  (voice + ducked music + sfx, -16 LUFS)
 #   src/index.html ──render.cjs──► build/video-master.mp4 ──ffmpeg──► dist/*.mp4 + poster.jpg
 #
-# Requirements: python3 (kokoro-onnx soundfile numpy imageio-ffmpeg), node + playwright.
+# Requirements: python3 (kokoro-onnx soundfile numpy scipy imageio-ffmpeg), node + playwright.
+# To use a licensed track instead of the synthesised one:  MUSIC=path/to/track.mp3 tools/build.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -17,14 +19,25 @@ mkdir -p build dist
 
 python3 tools/tts.py
 DUR=$(python3 -c "import json; print(json.load(open('build/timings.json'))['duration'])")
-python3 tools/music.py "$DUR"
+node tools/render.cjs events build/sfx.json
+python3 tools/music.py
 
-echo "[mix] voice + music (bed ~14 dB under the voice, ducked further while speaking)"
-"$FFMPEG" -y -loglevel error -i build/narration.wav -i build/music.wav -filter_complex \
+MUSIC_IN=build/music.wav
+if [[ -n "${MUSIC:-}" ]]; then
+  echo "[music] using $MUSIC"
+  "$FFMPEG" -y -loglevel error -stream_loop -1 -i "$MUSIC" -t "$DUR" \
+    -af "aresample=48000,aformat=channel_layouts=stereo,loudnorm=I=-20:TP=-2,afade=t=out:st=$(python3 -c "print(max(0, $DUR - 4))"):d=4" \
+    -c:a pcm_s16le build/music-custom.wav
+  MUSIC_IN=build/music-custom.wav
+fi
+
+echo "[mix] voice + music (≈7 dB under the voice in pauses, ducked ~10 dB more while speaking) + sfx"
+"$FFMPEG" -y -loglevel error -i build/narration.wav -i "$MUSIC_IN" -i build/sfx.wav -filter_complex \
   "[0:a]aresample=48000,aformat=channel_layouts=stereo,highpass=f=70,acompressor=threshold=-18dB:ratio=2.5:attack=5:release=150,asplit=2[v1][v2];\
-   [1:a]highpass=f=90,volume=0.14[m];\
+   [1:a]aresample=48000,volume=0.32[m];\
    [m][v1]sidechaincompress=threshold=0.02:ratio=6:attack=40:release=800[md];\
-   [v2][md]amix=inputs=2:duration=first:normalize=0" \
+   [2:a]aresample=48000[fx];\
+   [v2][md][fx]amix=inputs=3:duration=first:normalize=0" \
   -c:a pcm_s16le build/mix.wav
 
 # Two-pass, linear loudness normalisation to -16 LUFS (web/podcast standard, no pumping)

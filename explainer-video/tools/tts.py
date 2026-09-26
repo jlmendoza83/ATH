@@ -107,7 +107,15 @@ def main():
     placed = []          # (start_time, samples)
     t = 0.0
 
+    # Scene changes land on the music grid (every `snap_beats` beats) so transitions hit the beat.
+    beat = 60.0 / script["bpm"] if script.get("bpm") else None
+    grid = beat * script.get("snap_beats", 2) if beat else None
+    snap = (lambda x, g: np.ceil(x / g - 1e-6) * g) if grid else (lambda x, g: x)
+
     for scene in script["scenes"]:
+        t = float(snap(t, grid)) + 0.0
+        if timings["order"]:  # the previous scene lasts until this one starts (no gap)
+            timings["scenes"][timings["order"][-1]]["end"] = round(t, 3)
         scene_start = t
         t += scene.get("pad_before", defaults["pad_before"])
         for i, seg in enumerate(scene["segments"]):
@@ -126,6 +134,10 @@ def main():
         timings["scenes"][scene["id"]] = {"start": round(scene_start, 3), "end": round(t, 3)}
         timings["order"].append(scene["id"])
 
+    if beat:
+        t = float(snap(t, beat * 4))  # end on a bar line so the music can finish cleanly
+        timings["scenes"][timings["order"][-1]]["end"] = round(t, 3)
+        timings["bpm"] = script["bpm"]
     timings["duration"] = round(t, 3)
 
     track = np.zeros(int(np.ceil(t * SR)) + SR, dtype="float32")
